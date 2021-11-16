@@ -2,6 +2,10 @@ import pandas as pd
 import sys
 
 
+def isNaN(value) -> bool:
+    return value != value
+
+
 def missing(line, PERCENTAGE: float, n: int) -> bool:
     """
     This function returns a boolean that indicates 
@@ -9,9 +13,13 @@ def missing(line, PERCENTAGE: float, n: int) -> bool:
     than the specified percentage.
     """
 
-    # line.count() returns the number of instances that 
+    # line.count() returns the number of instances that
     # their value are not NaN.
-    return (len(line) - line.count()) / n > PERCENTAGE
+    count = 0
+    for e in line:
+        if isNaN(e) == False:
+            count += 1
+    return (len(line) - count) / n > PERCENTAGE
 
 
 ######################################################## MAIN

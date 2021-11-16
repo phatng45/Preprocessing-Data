@@ -24,10 +24,13 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="count_missing_rows.py" />
     <Compile Include="drop-duplicates.py" />
     <Compile Include="feature-scaling.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="fill_missing_values.py" />
+    <Compile Include="list_missing_cols.py" />
     <Compile Include="missing-cols.py">
       <SubType>Code</SubType>
     </Compile>
