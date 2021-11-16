@@ -5,7 +5,8 @@
     <ProjectGuid>f6068ecc-e4e2-41d7-9b5b-f20358a94c48</ProjectGuid>
     <ProjectHome>
     </ProjectHome>
-    <StartupFile>solve-equation.py</StartupFile>
+    <StartupFile>
+    </StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -25,16 +26,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="count_missing_rows.py" />
-    <Compile Include="drop-duplicates.py" />
-    <Compile Include="feature-scaling.py">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="drop_duplicates.py" />
+    <Compile Include="feature_scaling.py" />
     <Compile Include="fill_missing_values.py" />
     <Compile Include="list_missing_cols.py" />
-    <Compile Include="missing-cols.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="solve-equation.py" />
+    <Compile Include="drop_missing_data_cols.py" />
+    <Compile Include="solve_equation.py" />
   </ItemGroup>
   <ItemGroup>
     <InterpreterReference Include="Global|PythonCore|3.8" />

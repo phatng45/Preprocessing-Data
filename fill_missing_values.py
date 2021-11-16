@@ -122,8 +122,8 @@ def main():
 This program fills in the missing values of specified attributes in a csv file.
 The csv file should be comma-separated.
 Depending whether the attribute is nominal or numeric, specific filling methods can be used.
-If the attribute is nominal, the filling method is by the mode of the attribute.
-If the attribute is numeric, user can select between the mean or the median of the attribute.
+If the attribute is nominal, the filling method is by the 'mode' of the attribute.
+If the attribute is numeric, user can select between the 'mean' or the 'median' of the attribute.
 This program assumes that all data have equal weights of 1.
 
 Command line: --in=[csv_path] --out=[output_path] --attributes=[attribute_indices] --num_method=[mean|median] | --help
@@ -146,7 +146,7 @@ Output:
     # Initialize a dictionary that specify the command line arguments
     spec = {
         "--in": str(),
-        "--out": "output.csv",
+        "--out": "hold",
         "--attributes": "all",
         "--num_method": mean,
         "--help": help_msg
@@ -215,6 +215,9 @@ Output:
 
     # Fill in the missing values
     df = fill_missing_values(df, spec["--attributes"], spec["--num_method"])
+
+    if spec["--out"] == "hold":
+        spec["--out"] = "output_fill_missing_values_" + spec["--in"]
 
     # Output the dataframe to csv
     df.to_csv(spec["--out"], index=False)
