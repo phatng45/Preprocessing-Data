@@ -1,7 +1,7 @@
 """
 This program removes the columns that have more missing values than a specified percentage in a csv file.
 The csv file should be comma-separated.
-The parameter must be in the correct order in order for this program to work.
+The parameter must be in the correct order in order for this program to function normally.
 
 Command line: [csv_path] [percentage] | --help
     csv_path: Path to the csv file for this program to check.
@@ -51,7 +51,7 @@ if INPUTPATH == "--help":
     print("""
 This program removes the columns that have more missing values than a specified percentage in a csv file.
 The csv file should be comma-separated.
-The parameter must be in the correct order in order for this program to work.
+The parameter must be in the correct order in order for this program to function normally.
 
 Command line: [csv_path] [percentage] | --help
     csv_path: Path to the csv file for this program to check.

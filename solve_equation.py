@@ -1,7 +1,7 @@
 """
 This program solves a specified equation from the data in a csv file.
 The csv file should be comma-separated.
-The parameter must be in the correct order in order for this program to work.
+The parameter must be in the correct order in order for this program to function normally.
 
 Command line: [csv_path] [equation] | --help
     csv_path: Path to the csv file for this program to check.
@@ -49,7 +49,7 @@ if INPUTPATH == "--help":
     print("""
 This program solves a specified equation from the data in a csv file.
 The csv file should be comma-separated.
-The parameter must be in the correct order in order for this program to work.
+The parameter must be in the correct order in order for this program to function normally.
 
 Command line: [csv_path] [equation] | --help
     csv_path: Path to the csv file for this program to check.
