@@ -18,6 +18,7 @@ Output:
     Output path is ''output_solve_equation_' + csv_path' and is not customizable.
 """
 
+import os
 import pandas as pd
 import sys
 
@@ -72,6 +73,6 @@ EQUATION = "".join(arg[2:]) # combine all remaining arguments to the equation
 df = pd.read_csv(INPUTPATH) 
 df.insert(len(df.columns), EQUATION, solve_equation(df,EQUATION))
 
-outputpath = 'output_solve_equation_' + INPUTPATH
+outputpath = 'output_solve_equation_' + os.path.basename(INPUTPATH)
 df.to_csv(outputpath, index = False)
 print('EXPORTED TO ' + outputpath)

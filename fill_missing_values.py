@@ -9,7 +9,7 @@ Command line: --in=[csv_path] --out=[output_path] --attributes=[attribute_indice
     --in: Path to the input csv file for this program to check.
         For example: --in=a.csv, --in="a b c.csv"
     --out: Path to the output csv file after the data has been filled.
-        If not specified, the default will be "output.csv".
+        If not specified, the default will be "output_fill_missing_values_" + input_file_name + ".csv".
         For example: --in=a.csv, --in="a b c.csv"
     --attributes: List of attribute indices to check, separated by comma, with no space inbetween.
         The "all" keyword can be used to specify all attributes detected as missing data.
@@ -104,10 +104,12 @@ def fill_missing_values(data: 'pd.DataFrame', attrIndex: 'list', numeric_fill=me
         # By default, pandas read string values from csv as 'object' type
         filler = 0
         if data.dtypes[colIndex] == object:
-            filler = modeNominal([x for x in data.iloc[:, colIndex].tolist() if not isNaN(x)])
+            filler = modeNominal(
+                [x for x in data.iloc[:, colIndex].tolist() if not isNaN(x)])
         else:
             # If the attribute is numeric, use the specified filling method from the parameter
-            filler = numeric_fill([x for x in data.iloc[:, colIndex].tolist() if not isNaN(x)])
+            filler = numeric_fill(
+                [x for x in data.iloc[:, colIndex].tolist() if not isNaN(x)])
         # Iterate through elements in the column, if an element is missing value, replace it with the filler
         for i in range(data.shape[0]):
             if isNaN(data.iloc[i, colIndex]):
@@ -131,7 +133,7 @@ Command line: --in=[csv_path] --out=[output_path] --attributes=[attribute_indice
         For example: --in=a.csv, --in="a b c.csv"
     --out: Path to the output csv file after the data has been filled.
         If not specified, the default will be "output.csv".
-        For example: --in=a.csv, --in="a b c.csv"
+        For example: --out=a.csv, --out="a b c.csv"
     --attributes: List of attribute indices to check, separated by comma, with no space inbetween.
         The "all" keyword can be used to specify all attributes by default.
         For example: --attributes=1,2,3,4 or --attributes=all
@@ -165,8 +167,8 @@ Output:
         # Split the argument into flag name and flag value
         splitted = arg.split("=")
         flag = splitted[0]
-        flagVal: str
-        if len(splitted) > 2:
+        flagVal: str = ""
+        if len(splitted) == 2:
             flagVal = splitted[1]
         # Handle the flag
         # If the flag name is invalid
@@ -175,7 +177,7 @@ Output:
             print(parse_error)
             return -1
         # If the flag has already been used
-        elif (flag == "--in" and len(specVal) != 0) or (flag == "--attributes" and specVal == "all"):
+        elif (flag == "--in" and len(specVal) != 0) or (flag == "--out" and specVal != "hold") or (flag == "--attributes" and specVal == "all"):
             print("Can't use a flag twice. Please try again")
             return -1
         elif flag == "--help":
@@ -187,15 +189,18 @@ Output:
         elif flag == "--attributes":
             if flagVal != "all":
                 try:
-                    spec[flag] = [int(x) for x in flagVal.strip("\" ").split(",")]
+                    spec[flag] = [int(x)
+                                  for x in flagVal.strip("\" ").split(",")]
                 except ValueError:
-                    print("Invalid attribute index values, please check the documentation using --help then try again.")
+                    print(
+                        "Invalid attribute index values, please check the documentation using --help then try again.")
                     return -1
         elif flag == "--num_method":
             if flagVal == "median":
                 spec[flag] = median
             elif flagVal != "mean":
-                print("Invalid numeric filling method. See help with --help flag then try again.")
+                print(
+                    "Invalid numeric filling method. See help with --help flag then try again.")
                 return -1
         else:
             print(parse_error)
@@ -211,13 +216,14 @@ Output:
 
     # If attribute flag is specified as "all"
     if spec["--attributes"] == "all":
-        spec["--attributes"] = [x[0] for x in list_missing_cols(df.to_numpy().tolist(), df.columns.tolist())]
+        spec["--attributes"] = [x[0]
+                                for x in list_missing_cols(df.to_numpy().tolist(), df.columns.tolist())]
 
     # Fill in the missing values
     df = fill_missing_values(df, spec["--attributes"], spec["--num_method"])
 
     if spec["--out"] == "hold":
-        spec["--out"] = "output_fill_missing_values_" + spec["--in"]
+        spec["--out"] = "output_fill_missing_values_" + os.path.basename(spec["--in"])
 
     # Output the dataframe to csv
     df.to_csv(spec["--out"], index=False)

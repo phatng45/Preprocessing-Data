@@ -27,7 +27,7 @@ def isNaN(value):
     return value != value or value is None
 
 
-def list_missing_cols(data: 'list[list]', colnames: 'list[str]') -> 'list[tuple]':
+def list_missing_cols(data: 'list[list]', colnames: 'list[str] | None') -> 'list[tuple]':
     """List out columns with missing data
 
     Returns:
@@ -41,7 +41,10 @@ def list_missing_cols(data: 'list[list]', colnames: 'list[str]') -> 'list[tuple]
         # Iterate through each element in column
         for row_index in range(len(data)):
             if isNaN(data[row_index][col_index]):
-                result.append((col_index, colnames[col_index]))
+                if colnames is not None:
+                    result.append((col_index, colnames[col_index]))
+                else:
+                    result.append((col_index, ""))
                 break
 
     return result

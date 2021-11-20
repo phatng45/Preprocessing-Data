@@ -20,6 +20,7 @@ Output:
     Output path is ''output_feature_scaling_' + csv_path' and is not customizable.
 """
 
+import os
 import pandas as pd 
 import sys
 
@@ -110,6 +111,6 @@ else:
 # create a new DataFrame that stores the results
 df = pd.DataFrame(result,columns = colNames)
 
-outputpath = 'output_feature_scaling_' + ATTRIBUTE + '_' + INPUTPATH
+outputpath = 'output_feature_scaling_' + ATTRIBUTE + '_' + os.path.basename(INPUTPATH)
 df.to_csv(outputpath, index = False)
 print('EXPORTED TO ' + outputpath)

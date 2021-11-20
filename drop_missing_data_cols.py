@@ -16,7 +16,7 @@ Output:
     A csv file identical to the input csv with the instances whose percentages of missing data exceed the specified percentage removed.
     Output path is ''output_drop_missing_data_cols_' + csv_path' and is not customizable.
 """
-
+import os
 import pandas as pd
 import sys
 
@@ -77,6 +77,6 @@ for col in df:
     if missing(df[col], PERCENTAGE, n):
         df.drop(col, axis=1, inplace=True)
 
-outputpath = 'output_drop_missing_data_cols_' + INPUTPATH
+outputpath = 'output_drop_missing_data_cols_' + os.path.basename(INPUTPATH)
 df.to_csv(outputpath, index=False)
 print('EXPORTED TO ' + outputpath)
