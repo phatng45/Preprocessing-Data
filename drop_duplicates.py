@@ -38,17 +38,17 @@ Output:
 """)
     quit()
 
-
-with open(INPUTPATH,newline='') as file:
+with open(INPUTPATH, newline='') as file:
     # cast csv file into list of list
     data = list(csv.reader(file))
 
 # cast each instance (row) into tuple, then add it to set
 # dict.fromkeys().keys() is a type of set that retains order
-nondup = dict.fromkeys(list(map(tuple,data[1:]))).keys()
-input_filename = os.path.basename(INPUTPATH)
-with open('output_drop_duplicates_' + input_filename,'w',newline='') as file:
+nondup = dict.fromkeys(list(map(tuple, data[1:]))).keys()
+outputpath = 'output_drop_duplicates_' + os.path.basename(INPUTPATH)
+
+with open(outputpath, 'w', newline='') as file:
     writer = csv.writer(file)
     writer.writerow(data[0])
     writer.writerows(nondup)
-    print('EXPORTED TO output_drop_duplicates_' + input_filename)
+    print('EXPORTED TO ' + outputpath)

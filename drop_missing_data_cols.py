@@ -17,24 +17,23 @@ Output:
     Output path is ''output_drop_missing_data_cols_' + csv_path' and is not customizable.
 """
 import os
-import pandas as pd
+import csv
 import sys
 
 def isNaN(value) -> bool:
     """
     Refer to list_missing_cols.py
     """
-    return value != value or value is None
+    return value != value or value is None or value == ''
 
-def missing(line, PERCENTAGE: float, n: int) -> bool:
+
+def missing(line: list, PERCENTAGE: float, n: int) -> bool:
     """
     This function returns a boolean that indicates 
     whether the current row/col has more missing data 
     than the specified percentage.
     """
 
-    # line.count() returns the number of instances that
-    # their value are not NaN.
     count = 0
     for e in line:
         if isNaN(e) == False:
@@ -70,13 +69,35 @@ Output:
 
 PERCENTAGE = float(arg[2])
 
-df = pd.read_csv(INPUTPATH)
-n = len(df)
-    
-for col in df:
-    if missing(df[col], PERCENTAGE, n):
-        df.drop(col, axis=1, inplace=True)
+with open(INPUTPATH, newline='') as file:
+    # cast csv file into list of list
+    data = list(csv.reader(file))
+
+# get the number of rows
+n = len(data[1:])
+
+# init removal list
+waitingForRemoval = []
+
+for j in range(len(data[0])):
+    # get the current column
+    col = [data[i][j] for i in range(n)]
+
+    # if the current column is counted as missing
+    if missing(col, PERCENTAGE, n):
+
+        # append that column to removal list
+        waitingForRemoval.append(j)
+
+# remove elements using list comprehension
+data = [[row[coli] 
+        for coli in range(len(row)) 
+        if coli not in waitingForRemoval] 
+        for row in data]
 
 outputpath = 'output_drop_missing_data_cols_' + os.path.basename(INPUTPATH)
-df.to_csv(outputpath, index=False)
-print('EXPORTED TO ' + outputpath)
+
+with open(outputpath, 'w', newline='') as file:
+    writer = csv.writer(file)
+    writer.writerows(data)
+    print('EXPORTED TO ' + outputpath)
