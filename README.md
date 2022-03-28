@@ -1,2 +1,2 @@
 # Preprocessing-Data
-Lab1 - Khai thác dữ liệu và ứng dụng - Preprocessing Data
+Preprocessing phase's algorithms implementation
